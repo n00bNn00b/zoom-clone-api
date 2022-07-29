@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["cors", "npm:2.8.5"],\
             ["express", "npm:4.18.1"],\
             ["socket.io", "npm:4.5.1"]\
           ],\
@@ -864,6 +865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["zoom-clone-api", "workspace:."],\
+            ["cors", "npm:2.8.5"],\
             ["express", "npm:4.18.1"],\
             ["socket.io", "npm:4.5.1"]\
           ],\
