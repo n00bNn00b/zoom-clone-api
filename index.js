@@ -21,8 +21,9 @@ const addUser = (userName, roomId) => {
   });
 };
 
-const userLeave = () => {
+const userLeave = (userName) => {
   //
+  users = users.filter((user) => user.userName !== userName);
 };
 
 const getRoomUsers = (roomId) => {
@@ -44,6 +45,7 @@ io.on("connection", (socket) => {
     socket.on("diconnect", () => {
       console.log("disconnected");
       socket.leave(roomID);
+      userLeave(userName);
       io.to(roomID).emit("all-users", getRoomUsers(roomID));
     });
   });
