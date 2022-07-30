@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const users = [];
+let users = [];
 
 app.get("/", (req, res) => {
   res.send("Server is Running!");
@@ -32,21 +32,23 @@ const getRoomUsers = (roomId) => {
 // socket
 io.on("connection", (socket) => {
   console.log("Someone Connected");
-  socket.on("join-room", ({ roomID, userName }) => {
+  socket.on("join-room", ({ userName, roomId }) => {
     console.log("User Joined Room");
-    console.log(roomID);
     console.log(userName);
-    socket.join(roomID);
-    addUser(userName, roomID);
-    socket.to(roomID).emit("user-connected", userName);
+    console.log(roomId);
+    if (roomId && userName) {
+      socket.join(roomId);
+      addUser(userName, roomId);
+      socket.to(roomId).emit("user-connected", userName);
 
-    io.to(roomID).emit("all-users", getRoomUsers(roomID));
+      io.to(roomId).emit("all-users", getRoomUsers(roomId));
+    }
 
     socket.on("diconnect", () => {
       console.log("disconnected");
-      socket.leave(roomID);
+      socket.leave(roomId);
       userLeave(userName);
-      io.to(roomID).emit("all-users", getRoomUsers(roomID));
+      io.to(roomId).emit("all-users", getRoomUsers(roomId));
     });
   });
 });
